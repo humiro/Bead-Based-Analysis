@@ -53,10 +53,10 @@ function singleset_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for singleset
 if ispc
-    path(path, 'C:\Users\Humberto\Desktop\matlab-analysis\logistic');
+    path(path, 'C:\BeadBasedAnalysis\logistic');
 end
 if ismac
-    path(path, '/Users/humberto/beadanalysis/matlab-analysis/logistic');
+    path(path, '/Users/humberto/BeadBasedAnalysis/logistic');
 end
 
 handles.output = hObject;

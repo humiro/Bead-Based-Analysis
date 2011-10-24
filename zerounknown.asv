@@ -1,9 +1,7 @@
 function  [outputlp outputsd outputcv] = zerounknown(hms,folder,exposures,dist,numofmethods,whichmethod)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-           ukIholder=cell(1,numel(folder));
-           ukSDholder=cell(1,numel(folder));
-           ukCVholder=cell(1,numel(folder));
+
 %create matrices to store LP values
 outputlp=zeros(8,numel(exposures));
 %create matrices to store LP SD values
@@ -74,12 +72,13 @@ for t=1:numel(summaryfiles)
             outputcv(7,t)=str2double(char(sumlines((startnumber+1)+6*skipnumber)));
             outputcv(8,t)=str2double(char(sumlines((startnumber+1)+7*skipnumber)));
 end
-w
        if dist>1
-
-           ukIholder(1,w)={outputlp};
-           ukSDholder(1,w)={outputsd};
-           ukCVholder(1,w)={outputcv};
+           ukIholder=cell(1,numel(folder));
+           ukSDholder=cell(1,numel(folder));
+           ukCVholder=cell(1,numel(folder));
+           ukIholder(w)={outputlp};
+           ukSDholder(w)={outputsd};
+           ukCVholder(w)={outputcv};
 %            if w==1
 %                ukLP=outputlp;
 %                ukLPSD=outputsd;

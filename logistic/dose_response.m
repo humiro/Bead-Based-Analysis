@@ -43,7 +43,7 @@ catch ME
     end
 end
 
-conc_low = log10(min(conc))-2;
+conc_low = log10(min(conc))-2.5;
 conc_high = log10(max(conc))+1;
 conc_graph = logspace(conc_low,conc_high,100000);
 if(noplot)

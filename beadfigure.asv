@@ -13,7 +13,6 @@ function [ y sd fintitle lodzerolpvalues ukholder] = beadfigure(methodI,methodSD
 
 % create new figure window
 f = figure;
-ukholder=0;
 set(f,'doublebuffer', 'on', 'resize', 'off')
 % set columns of plots
 cols = 2;
@@ -125,8 +124,8 @@ for s=1:skipsize
             pvstring=num2str(prediction_value);
             plot(prediction_value,normalizedpv,'gd', 'markersize',10,'markeredgecolor','k','markerfacecolor','g');
 %         end
-%             strg=strcat('LOD =', pvstring);
-%             text(prediction_value,normalizedpv+1,strg,'FontSize',12)
+            strg=strcat('LOD =', pvstring);
+            text(prediction_value,normalizedpv+1,strg,'FontSize',12)
         % concentration = a+b*(exp(c-d*log(conc)))./(1+exp(c - d*log(conc)));
         p=num2str(beta_est(1));
         b=num2str(beta_est(2));
@@ -154,8 +153,8 @@ for s=1:skipsize
                 [ukprediction_value] = prediction(beta_est,conc_graph,normalizedukgroup);
                 ukstring=num2str(ukprediction_value);
                 plot(ukprediction_value,normalizedukgroup,'gd', 'markersize',10,'markeredgecolor','k','markerfacecolor','b');
-                strg2=strcat('UK=', ukstring);
-                text(ukprediction_value,normalizedukgroup+1,strg2,'FontSize',12)
+                strg2=
+                text(ukprediction_value,normalizedukgroup+1,strg,'FontSize',12)
             end
         end
     else 

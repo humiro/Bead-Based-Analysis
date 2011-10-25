@@ -61,6 +61,7 @@ end
 
 handles.output = hObject;
 set(handles.chipsize,'SelectionChangeFcn',@chipsizeSelect_buttongroup_SelectionChangeFcn);
+set(handles.comp,'SelectionChangeFcn',@compSelect_buttongroup_SelectionChangeFcn);
 % Update handles structure
 guidata(hObject, handles);
 
@@ -76,6 +77,25 @@ function varargout = singleset_OutputFcn(hObject, eventdata, handles)
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
+function compSelect_buttongroup_SelectionChangeFcn(hObject, eventdata)
+ global comp;
+%retrieve GUI data, i.e. the handles structure
+handles = guidata(hObject); 
+comp=1;
+switch get(eventdata.NewValue,'Tag')   % Get Tag of selected object
+    case 'Competitive'
+      %execute this code when competitive_radiobutton is selected
+      comp=1;
+    case 'noncompetitive'
+      %execute this code when noncompetitive_radiobutton is selected
+      comp=0;
+    otherwise
+        errordlg('Please select chip size') 
+       % Code for when there is no match.
+ 
+end
+%updates the handles structure
+guidata(hObject, handles);
 
 
 function chipsizeSelect_buttongroup_SelectionChangeFcn(hObject, eventdata)
@@ -85,11 +105,11 @@ handles = guidata(hObject);
 csval=1;
 switch get(eventdata.NewValue,'Tag')   % Get Tag of selected object
     case 'rb5x4'
-      %execute this code when fontsize08_radiobutton is selected
+      %execute this code when rb5x4_radiobutton is selected
       csval=1;
  
     case 'rb3x4'
-      %execute this code when fontsize12_radiobutton is selected
+      %execute this code when rb3x4_radiobutton is selected
       csval=2;
     otherwise
         errordlg('Please select chip size') 
@@ -327,7 +347,7 @@ function showdata_Callback(hObject, eventdata, handles)
 % hObject    handle to showdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global ukval lod newy hms showmethods fintitle foldname conc exposures methodvalue numofmethods intensityvalues groupselected zerolp zerolpsd uklp uklpsd uklpcv;
+global comp ukval lod newy hms showmethods fintitle foldname conc exposures methodvalue numofmethods intensityvalues groupselected zerolp zerolpsd uklp uklpsd uklpcv;
 
 groupselected=get(handles.groupdd,'Value');
 drtype=get(handles.drtype,'Value');
@@ -357,7 +377,7 @@ else
         if drtype==7
             CV_Graph(cvvalues,conc, exposures, groupselected);
         else
-            [ newy sd fintitle lod ukval] = beadfigure(intensityvalues,sdvalues,zerolp,zerolpsd,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd);
+            [ newy sd fintitle lod ukval] = beadfigure(intensityvalues,sdvalues,zerolp,zerolpsd,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd,comp);
         end
 end
  guidata(hObject,handles)

@@ -1,4 +1,4 @@
-function [ y sd fintitle lodzerolpvalues ukholder] = beadfigure(methodI,methodSD,zeroI,zeroSD,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd)
+function [ y sd fintitle lodzerolpvalues ukholder] = beadfigure(methodI,methodSD,zeroI,zeroSD,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd,comp)
 % Created by Evan Brooks, evan.brooks@wpafb.af.mil
 %
 % Adaptation of scrollplotdemo by Steven Lord:
@@ -47,23 +47,39 @@ end
 
 if drtype==2
     y=raw;
-    lodzerolpvalues=zeroI(whichgroup,:)+3*zeroSD(whichgroup,:);
+    if comp==0
+        lodzerolpvalues=zeroI(whichgroup,:)+3*zeroSD(whichgroup,:);
+    else
+        lodzerolpvalues=zeroI(whichgroup,:)-3*zeroSD(whichgroup,:);
+    end
     figtitle='Raw Data Dose Response';
 end
 if drtype==3
     y=rawminneg;
-    lodzerolpvalues=rawzerominneg+3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:));
+    if comp==0
+        lodzerolpvalues=rawzerominneg+3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:));
+    else
+        lodzerolpvalues=rawzerominneg-3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:));
+    end
     figtitle='Raw Data - Negative Dose Response';
     
 end
 if drtype==4
     y=rawminnegnorm;
-    lodzerolpvalues=rawzerominneg+3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:));
+    if comp==0
+        lodzerolpvalues=rawzerominneg+3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:));
+    else
+        lodzerolpvalues=rawzerominneg-3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:));
+    end
     figtitle='Raw Data - Negative (Normalized) Dose Response';
 end
 if drtype==5
     y=rawnorm;
-    lodzerolpvalues=rawzerolpnorm+3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:))
+    if comp==0
+        lodzerolpvalues=rawzerolpnorm+3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:))
+    else
+        lodzerolpvalues=rawzerolpnorm-3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:))
+    end
     figtitle='Normal (Normalized) Dose Response';
 end
 if drtype==6
@@ -115,7 +131,7 @@ for s=1:skipsize
     xlabel('Concentration'), ylabel('Intensity');
     hold on;
     if numel(beta_est)>1
-        normalizedpv=(inputsamplevalue(s)/ymax)
+        normalizedpv=(inputsamplevalue(s)/ymax);
         [prediction_value] = prediction(beta_est,conc_graph,normalizedpv);
         inputsamplevalue(s);
 %         if prediction_value=='Unknown'
@@ -125,8 +141,10 @@ for s=1:skipsize
             pvstring=num2str(prediction_value);
             plot(prediction_value,normalizedpv,'gd', 'markersize',10,'markeredgecolor','k','markerfacecolor','g');
 %         end
-%             strg=strcat('LOD =', pvstring);
-%             text(prediction_value,normalizedpv+1,strg,'FontSize',12)
+            strg=strcat('LOD =', pvstring);
+            strg3=strcat('LOD_I=',num2str(inputsamplevalue(s)));
+            text(prediction_value+.5,normalizedpv,strg,'FontSize',12)
+            text(prediction_value+.5,normalizedpv+.1,strg3,'FontSize',12)
         % concentration = a+b*(exp(c-d*log(conc)))./(1+exp(c - d*log(conc)));
         p=num2str(beta_est(1));
         b=num2str(beta_est(2));

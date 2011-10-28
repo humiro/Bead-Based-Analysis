@@ -403,7 +403,6 @@ function oneexp_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global ukval lod newy conc exposures fintitle intensityvalues groupselected sexpval zerolp zerolpsd uklp uklpsd uklpcv;
 dlgprompt='Select exposure:';
-newy
 singleexp=inputdlg(dlgprompt);
 chsingleexp=char(singleexp);
 lodzerolpvalues=zerolp+3*zerolpsd;
@@ -417,11 +416,11 @@ for t=1:numel(exposures)
     end
 end
 % yholder=newy{groupselected};
-
-yinv=newy(:,sexpval);
-lodval=lod(sexpval)
+yit=newy(:,sexpval)
+yinv=yit/(max(yit));
+lodval=lod(sexpval);
 yinv;
-y=yinv
+y=yinv'
 if(numel(ukval)>1)
 realukholder=zeros(1,numel(ukval));
 for g=1:numel(ukval)

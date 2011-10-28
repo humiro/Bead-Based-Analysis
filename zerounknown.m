@@ -37,7 +37,7 @@ if ismac
     end
 end
 
-fpofname=char(strcat(folder{w},testlc))
+fpofname=char(strcat(folder{w},testlc));
 summaryfiles=dir(fullfile(fpofname,'*summary*.txt'));
 storedfiles=cell(1,numel(summaryfiles));
 for h = 1:numel(summaryfiles) 
@@ -74,7 +74,6 @@ for t=1:numel(summaryfiles)
             outputcv(7,t)=str2double(char(sumlines((startnumber+1)+6*skipnumber)));
             outputcv(8,t)=str2double(char(sumlines((startnumber+1)+7*skipnumber)));
 end
-w
        if dist>1
 
            ukIholder(1,w)={outputlp};

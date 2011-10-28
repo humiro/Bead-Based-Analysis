@@ -46,8 +46,6 @@ for r=1:numel(conc);
     if ispc
         try
             testlc= sprintf('\\%1.1f ngperml\\Results\\',conc(r));
-        catch
-            testlc= sprintf('\\%1.2f ngperml\\Results\\',conc(r));
     end
     if ismac
         testlc= sprintf('//%1.1f ngperml//Results//',conc(r));

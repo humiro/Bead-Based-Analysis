@@ -24,16 +24,16 @@ whichgroup=(groupselected);
 raw= methodI{whichgroup};
 rawSD=methodSD{whichgroup};
 skipsize=length(raw);
-%manipulation of raw data
+%extraction of raw data
 neg=methodI{2};
 cal=methodI{1};
 maxcal=max(cal);
 rawminneg=raw-neg;
 rawminnegnorm=raw;
 rawnorm=raw;
-rawzerolp=zeroI(whichgroup,:);
-%manipulation of zero data
-negzerolp=zeroI(2,:);
+%extraction of zero data
+rawzerolp=zeroI(whichgroup,:)
+negzerolp=zeroI(2,:)
 calzerolp=zeroI(1,:);
 rawzerominneg=rawzerolp-negzerolp;
 maxzerocal=max(calzerolp);
@@ -57,9 +57,11 @@ end
 if drtype==3
     y=rawminneg;
     if comp==0
-        lodzerolpvalues=rawzerominneg+3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:));
+%         lodzerolpvalues=rawzerominneg+3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:));
+        lodzerolpvalues=rawzerominneg+3*(std(rawzerominneg));
     else
-        lodzerolpvalues=rawzerominneg-3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:));
+%         lodzerolpvalues=rawzerominneg-3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:));
+        lodzerolpvalues=abs(rawzerominneg-3*(std(rawzerominneg)));
     end
     figtitle='Raw Data - Negative Dose Response';
     
@@ -87,7 +89,7 @@ if drtype==6
     figtitle='CV Graph';
 end
 
-inputsamplevalue=lodzerolpvalues
+inputsamplevalue=lodzerolpvalues;
 %determine raw - negative 
 % determine required rows of plots
 rows = ceil(length(y)/cols);

@@ -24,16 +24,16 @@ whichgroup=(groupselected);
 raw= methodI{whichgroup};
 rawSD=methodSD{whichgroup};
 skipsize=length(raw);
-%manipulation of raw data
+%extraction of raw data
 neg=methodI{2};
 cal=methodI{1};
 maxcal=max(cal);
 rawminneg=raw-neg;
 rawminnegnorm=raw;
 rawnorm=raw;
-rawzerolp=zeroI(whichgroup,:);
-%manipulation of zero data
-negzerolp=zeroI(2,:);
+rawzerolp=zeroI(whichgroup,:)
+%extraction of zero data
+negzerolp=zeroI(2,:)
 calzerolp=zeroI(1,:);
 rawzerominneg=rawzerolp-negzerolp;
 maxzerocal=max(calzerolp);
@@ -57,9 +57,15 @@ end
 if drtype==3
     y=rawminneg;
     if comp==0
-        lodzerolpvalues=rawzerominneg+3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:));
+%         lodzerolpvalues=rawzerominneg+3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:));
+        rawzerominneg
+        newstd=std(rawzerominneg)
+        lodzerolpvalues=rawzerominneg+3*(std(rawzerominneg));
     else
-        lodzerolpvalues=rawzerominneg-3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:));
+%         lodzerolpvalues=rawzerominneg-3*(rawSD(whichgroup,:)-zeroSD(whichgroup,:));
+        rawzerominneg
+        newstd=std(rawzerominneg)
+        lodzerolpvalues=rawzerominneg-3*(std(rawzerominneg));
     end
     figtitle='Raw Data - Negative Dose Response';
     
@@ -87,7 +93,7 @@ if drtype==6
     figtitle='CV Graph';
 end
 
-inputsamplevalue=lodzerolpvalues
+inputsamplevalue=lodzerolpvalues;
 %determine raw - negative 
 % determine required rows of plots
 rows = ceil(length(y)/cols);
@@ -131,7 +137,7 @@ for s=1:skipsize
     xlabel('Concentration'), ylabel('Intensity');
     hold on;
     if numel(beta_est)>1
-        normalizedpv=(inputsamplevalue(s)/ymax)
+        normalizedpv=(inputsamplevalue(s)/ymax);
         [prediction_value] = prediction(beta_est,conc_graph,normalizedpv);
         inputsamplevalue(s);
 %         if prediction_value=='Unknown'
@@ -142,9 +148,9 @@ for s=1:skipsize
             plot(prediction_value,normalizedpv,'gd', 'markersize',10,'markeredgecolor','k','markerfacecolor','g');
 %         end
             strg=strcat('LOD =', pvstring);
-            strg2=
+            strg3=strcat('LOD_I=',num2str(inputsamplevalue(s)));
             text(prediction_value+.5,normalizedpv,strg,'FontSize',12)
-            text(prediction_value+.5,normalizedpv+.5,inputsamplevalue(s),'FontSize',12)
+            text(prediction_value+.5,normalizedpv+.1,strg3,'FontSize',12)
         % concentration = a+b*(exp(c-d*log(conc)))./(1+exp(c - d*log(conc)));
         p=num2str(beta_est(1));
         b=num2str(beta_est(2));
